@@ -1,6 +1,9 @@
 import pygame
 import random
 
+print("loser freak weirdo")
+
+
 # Initialize Pygame
 pygame.init()
 
