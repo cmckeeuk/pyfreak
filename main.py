@@ -82,17 +82,7 @@ while running:
             enemy_x = [100, 200, 300]  # Reset enemy positions
             enemy_y = [100, 200, 300]
     pygame.display.flip()
-    # Check if character is hitting the wall
-    if character_x < 0:
-        character_x = 0
-    if character_x > screen_width - character_width:
-        character_x = screen_width - character_width
-
-    if character_y < 0:
-        character_y = 0
-    if character_y > screen_height - character_height:
-        character_y = screen_height - character_height
-
+    
     # Handle character movement
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
@@ -116,16 +106,27 @@ while running:
         character_x += character_speed // 2
         character_y += character_speed // 2
 
+    # Check if character is hitting the wall
+    if character_x < 0:
+        character_x = 0
+    if character_x > screen_width - character_width:
+        character_x = screen_width - character_width
+
+    if character_y < 0:
+        character_y = 0
+    if character_y > screen_height - character_height:
+        character_y = screen_height - character_height
+
     # Check if character is hitting the wall or the brown rectangle
-    if screen.get_at((character_x + character_width, character_y + character_height)) == (139, 69, 19):
+    if screen.get_at((character_x + character_width -1, character_y + character_height -1)) == (139, 69, 19):
         character_x = prev_character_x
         character_y = prev_character_y
 
-    if screen.get_at((character_x, character_y + character_height)) == (139, 69, 19):
+    if screen.get_at((character_x, character_y + character_height - 1)) == (139, 69, 19):
         character_x = prev_character_x
         character_y = prev_character_y
 
-    if screen.get_at((character_x + character_width, character_y)) == (139, 69, 19):
+    if screen.get_at((character_x + character_width -1, character_y)) == (139, 69, 19):
         character_x = prev_character_x
         character_y = prev_character_y
 
