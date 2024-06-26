@@ -54,12 +54,18 @@ while running:
         screen.blit(label, (5, y + 5))
     # Select the part of the screen from the grid reference b1 to b4
     grid_size = 55
-    start_x = 1 * grid_size
-    start_y = 1 * grid_size
+
+    # draw brown rectangle
+    start_x = 2 * grid_size
+    start_y = 2 * grid_size
     end_x = 5 * grid_size
-    end_y = 2 * grid_size
+    end_y = 3 * grid_size
     selected_area = pygame.Rect(start_x, start_y, end_x - start_x, end_y - start_y)
     pygame.draw.rect(screen, (139, 69, 19), selected_area, 50)
+
+    # Store the previous position of the character
+    prev_character_x = character_x
+    prev_character_y = character_y
 
     # Draw the character
     pygame.draw.rect(screen, (155, 0, 100), (character_x, character_y, character_width, character_height))
@@ -86,6 +92,7 @@ while running:
         character_y = 0
     if character_y > screen_height - character_height:
         character_y = screen_height - character_height
+
     # Handle character movement
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
@@ -108,6 +115,23 @@ while running:
     if keys[pygame.K_RIGHT] and keys[pygame.K_DOWN]:
         character_x += character_speed // 2
         character_y += character_speed // 2
+
+    # Check if character is hitting the wall or the brown rectangle
+    if screen.get_at((character_x + character_width, character_y + character_height)) == (139, 69, 19):
+        character_x = prev_character_x
+        character_y = prev_character_y
+
+    if screen.get_at((character_x, character_y + character_height)) == (139, 69, 19):
+        character_x = prev_character_x
+        character_y = prev_character_y
+
+    if screen.get_at((character_x + character_width, character_y)) == (139, 69, 19):
+        character_x = prev_character_x
+        character_y = prev_character_y
+
+    if screen.get_at((character_x, character_y)) == (139, 69, 19):
+        character_x = prev_character_x
+        character_y = prev_character_y
 
     # Update enemy positions
     for i in range(len(enemy_x)):
